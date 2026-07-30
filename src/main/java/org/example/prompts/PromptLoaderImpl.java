@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 @Service
-public class PromptLoaderImpl implements PromptLoader{
+public class PromptLoaderImpl {
     private final HashMap<String,String> systemPrompts=new HashMap<>();
 
     @PostConstruct
@@ -37,7 +37,6 @@ public class PromptLoaderImpl implements PromptLoader{
         }
     }
 
-    @Override
     public String load(String promptName) {
         String prompt=systemPrompts.get(promptName);
 
