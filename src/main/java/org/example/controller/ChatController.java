@@ -1,6 +1,8 @@
 package org.example.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.LLMDocIngestionResponse;
 import org.example.service.ChatService;
 import org.example.service.DocParserService;
 import org.example.service.DocumentIngestionService;
@@ -22,7 +24,7 @@ public class ChatController {
     }
 
     @PostMapping("/pdf")
-    public String pdf(@RequestParam("file") MultipartFile file,@RequestParam("fileDescription") String fileDescription){
+    public String pdf(@RequestParam("file") MultipartFile file, @RequestParam("fileDescription") String fileDescription) throws JsonProcessingException {
         return documentIngestionService.ingestDocument(file,fileDescription);
     }
 }

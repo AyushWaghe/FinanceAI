@@ -9,5 +9,6 @@ public class LLMDocIngestionResponse {
     private boolean verified;
     private String reason;
     private String documentType;
-    private Map<String,String> metaData;
+    private String chunkingStrategy;
+    private String docSummary;
 }
