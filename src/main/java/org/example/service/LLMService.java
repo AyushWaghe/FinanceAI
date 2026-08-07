@@ -1,6 +1,7 @@
 package org.example.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.exceptions.LLMPromptException;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatModel;
@@ -23,8 +24,13 @@ public class LLMService {
                         new UserMessage(userPrompt)
                 )
         );
+        ChatResponse chatResponse;
+        try {
+            chatResponse=chatModel.call(prompt);
+        }catch (Exception e){
+            throw new LLMPromptException("Unable to prompt LLM Service");
+        }
 
-        ChatResponse chatResponse=chatModel.call(prompt);
         return chatResponse.getResult().getOutput().getText();
     }
 }
