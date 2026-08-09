@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantException;
 import io.qdrant.client.grpc.Points;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -50,11 +52,15 @@ public class DocumentIngestionService {
     private final MeterRegistry meterRegistry;
     private Counter documentProcessedCounter;
     private Counter documentFailedCounter;
+    private Timer indestionTimer;
+    private Timer llmProcessTimer;
 
     @PostConstruct()
     public void init(){
         documentProcessedCounter=meterRegistry.counter("documents.processed");
         documentFailedCounter=meterRegistry.counter("documents.failed");
+        indestionTimer=meterRegistry.timer("document.ingestion.time");
+        llmProcessTimer=meterRegistry.timer("document.llm.process.time");
     }
 
 
@@ -63,6 +69,9 @@ public class DocumentIngestionService {
         UserDocument userDocument = userDocRepository
                 .findByObjectKey(objectkey)
                 .orElseThrow(() -> new DocumentNotFoundException(objectkey));
+
+        Timer.Sample ingestionStopwatch=Timer.start(meterRegistry);
+
         try {
             Set<String> userDocCategories;
 
@@ -95,7 +104,9 @@ public class DocumentIngestionService {
              %s
             """.formatted(userDocCategories,docText);
 
+            Timer.Sample llmStopwatch=Timer.start(meterRegistry);
             String jsonResponse=llmService.ask(systemPrompt,userPrompt);
+            llmStopwatch.stop(llmProcessTimer);
 
             LLMDocIngestionResponse llmDocIngestionResponse=objectMapper.readValue(jsonResponse,LLMDocIngestionResponse.class);
 
@@ -162,6 +173,7 @@ public class DocumentIngestionService {
             documentFailedCounter.increment();
             throw new RuntimeException(e);
         }finally {
+            ingestionStopwatch.stop(indestionTimer);
             userDocRepository.save(userDocument);
         }
    }
