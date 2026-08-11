@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.service.DocumentRetrievalService;
 import org.example.service.FileStorageService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.io.InputStream;
 @RequestMapping("/file")
 public class FileStorageController {
     private final FileStorageService fileStorageService;
+    private final DocumentRetrievalService documentRetrievalService;
 
     @PostMapping("{userId}")
     public ResponseEntity<String> upload(
@@ -43,5 +45,11 @@ public class FileStorageController {
         fileStorageService.delete(objectKey);
         return ResponseEntity.ok(objectKey);
 
+    }
+
+    @GetMapping("/lucene")
+    public String getLuceneTest(@RequestParam("userQuery") String userQuery,@RequestParam("userId") Integer userId) {
+        documentRetrievalService.retrieveDocuments(userQuery,userId);
+        return "Done";
     }
 }

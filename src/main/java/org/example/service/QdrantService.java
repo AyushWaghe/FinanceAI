@@ -2,17 +2,24 @@ package org.example.service;
 
 import io.qdrant.client.*;
 import io.qdrant.client.grpc.Collections;
+import io.qdrant.client.grpc.Common;
 import io.qdrant.client.grpc.JsonWithInt;
 import io.qdrant.client.grpc.Points;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.IndexedChunk;
+import org.example.exceptions.QdrantServiceException;
+import org.example.util.FloatToListConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Filter;
+
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 @Service
 @RequiredArgsConstructor
@@ -41,11 +48,9 @@ public class QdrantService {
                 vectorParams
         ).get();
 
-        System.out.println("Collection created successfully.");
-    }
+        createPayloadIndexes();
 
-    public void storeDocuments(List<IndexedChunk> indexedChunks){
-        //TO-DO
+        System.out.println("Collection created successfully.");
     }
 
     public void savePoints(List<Points.PointStruct> points){
@@ -69,6 +74,31 @@ public class QdrantService {
         return builder.build();
     }
 
+    public List<Points.ScoredPoint> search(
+            List<Float> queryVector,
+            int userId,
+            int limit
+    ){
+
+        try {
+            Common.Filter filter= Common.Filter.newBuilder().addMust(match("userId", userId)).build();
+
+            return qdrantClient
+                    .searchAsync(
+                            Points.SearchPoints.newBuilder()
+                                    .setCollectionName(COLLECTION_NAME)
+                                    .addAllVector(queryVector)
+                                    .setFilter(filter)
+                                    .setLimit(limit)
+                                    .setWithPayload(enable(true))
+                                    .build()
+                    )
+                    .get();
+        }catch (Exception e){
+            throw new QdrantException("Unable to fetch docs from qdrant"+e);
+        }
+    }
+
     public JsonWithInt.Value getValue(Object obj){
         if (obj instanceof String s) {
              return ValueFactory.value(s);
@@ -86,6 +116,22 @@ public class QdrantService {
             throw new IllegalArgumentException(
                     "Unsupported type: " + obj.getClass().getName()
             );
+        }
+    }
+
+    public void createPayloadIndexes(){
+        try {
+            qdrantClient.createPayloadIndexAsync(
+                    COLLECTION_NAME,
+                    "userId",
+                    Collections.PayloadSchemaType.Integer,
+                    null,
+                    true,
+                    null,
+                    null
+            ).get();
+        }catch (Exception e){
+            throw new QdrantServiceException("Qdrant service error-Unable to create payload indices due to"+e);
         }
     }
 }

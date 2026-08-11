@@ -2,6 +2,7 @@ package org.example.exceptions;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import org.example.dto.ErrorResponse;
+import org.example.service.LuceneService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -63,6 +64,18 @@ public void jsonParsingException(JsonParseException e){
     }
     @ExceptionHandler(S3serviceException.class)
     public ResponseEntity<ErrorResponse> s3ServiceException(S3serviceException e){
+        ErrorResponse err=new ErrorResponse(500,e.getMessage(),e.toString());
+        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(LuceneServiceException.class)
+    public ResponseEntity<ErrorResponse> luceneServiceException(LuceneServiceException e){
+        ErrorResponse err=new ErrorResponse(500,e.getMessage(),e.toString());
+        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(QdrantServiceException.class)
+    public ResponseEntity<ErrorResponse> qdrantServiceException(QdrantServiceException e){
         ErrorResponse err=new ErrorResponse(500,e.getMessage(),e.toString());
         return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
     }

@@ -1,12 +1,10 @@
 package org.example.service;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
-import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantException;
 import io.qdrant.client.grpc.Points;
 import jakarta.annotation.PostConstruct;
@@ -14,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.dao.UserDocRepository;
 import org.example.dto.LLMDocIngestionResponse;
+import org.example.dto.LuceneDocumentData;
 import org.example.enums.DocumentState;
 import org.example.exceptions.DocumentNotFoundException;
 import org.example.exceptions.LLMEmbeddingException;
@@ -26,12 +25,9 @@ import org.springframework.ai.embedding.Embedding;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.embedding.EmbeddingRequest;
 import org.springframework.ai.embedding.EmbeddingResponse;
-import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -41,6 +37,7 @@ import java.util.*;
 public class DocumentIngestionService {
 
     private final DocParserService docParserService;
+    private final LuceneService luceneService;
     private final PromptLoaderImpl promptLoader;
     private final LLMService llmService;
     private final ObjectMapper objectMapper;
@@ -114,7 +111,7 @@ public class DocumentIngestionService {
 
             Map<String,Object> docMetaData=new HashMap<>();
             docMetaData.put("documentType",llmDocIngestionResponse.getDocumentType());
-            docMetaData.put("userId",1234);
+            docMetaData.put("userId",userId);
             docMetaData.put("uploadDate", LocalDate.now().toString());
             docMetaData.put("docId",objectkey);
 
@@ -135,17 +132,32 @@ public class DocumentIngestionService {
                 throw new LLMEmbeddingException("Unable to get embeddings");
             }
 
+
             List<Embedding> embeddings = response.getResults();
+            List<Points.PointStruct> points = new ArrayList<>();
+            List<LuceneDocumentData> luceneDocuments = new ArrayList<>();
 
-            List<Points.PointStruct> points=new ArrayList<>();
+            for (int i = 0; i < embeddings.size(); i++) {
 
-            for (int i=0;i<embeddings.size();i++){
-                float[] embeddingVector=embeddings.get(i).getOutput();
-                Points.PointStruct p= qdrantService.createPoint(UUID.randomUUID(), FloatToListConverter.toList(embeddingVector),docMetaData);
-                points.add(p);
+                float[] embeddingVector = embeddings.get(i).getOutput();
+
+                String chunkId = UUID.randomUUID().toString();
+
+                Points.PointStruct point =
+                        qdrantService.createPoint(
+                                UUID.fromString(chunkId),
+                                FloatToListConverter.toList(embeddingVector),
+                                docMetaData
+                        );
+
+                points.add(point);
+
+                luceneDocuments.add(
+                        new LuceneDocumentData(chunkedDocument.get(i),userId.toString(),chunkId,objectkey)
+                );
             }
-
             qdrantService.savePoints(points);
+            luceneService.saveLuceneDocuments(luceneDocuments);
 
             userDocument.setDocType(llmDocIngestionResponse.getDocumentType());
             userDocument.setDocSummary(llmDocIngestionResponse.getDocSummary());
