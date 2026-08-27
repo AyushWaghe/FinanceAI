@@ -10,12 +10,16 @@ import org.example.util.AuthenticationUtil;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class BillTools {
+
+    private static final Logger log = LoggerFactory.getLogger(BillTools.class);
 
     private final BillClient billClient;
 
@@ -29,7 +33,7 @@ public class BillTools {
         """
     )
     public List<BillResponse> getBills() {
-        System.out.println("Calling get_bills");
+        log.info("Calling get_bills");
         Integer userId = getAuthenticatedUserId();
         return billClient.getBills(userId);
     }
@@ -48,7 +52,7 @@ public class BillTools {
         """
     )
     public List<BillInstanceResponse> getUpcomingBills() {
-        System.out.println("Calling getUpcomingBills");
+        log.info("Calling getUpcomingBills");
         Integer userId = getAuthenticatedUserId();
         return billClient.getUpcomingBills(userId);
     }
@@ -71,8 +75,8 @@ public class BillTools {
             @ToolParam(
                     description = "Bill status is either PENDING,OVERDUE or PAID"
             )
-            BillStatus status) {
-        System.out.println("Calling getBillsByStatus");
+                    BillStatus status) {
+        log.info("Calling getBillsByStatus");
         Integer userId = getAuthenticatedUserId();
         return billClient.getBillsByStatus(userId, status);
     }
@@ -90,7 +94,7 @@ public class BillTools {
         """
     )
     public List<BillInstanceResponse> getOverdueBills() {
-        System.out.println("Calling getOverdueBills");
+        log.info("Calling getOverdueBills");
         Integer userId = getAuthenticatedUserId();
         return billClient.getOverdueBills(userId);
     }

@@ -7,12 +7,17 @@ import org.example.util.AuthenticationUtil;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class AnalyticsTools {
+
+    private static final Logger log = LoggerFactory.getLogger(AnalyticsTools.class);
+
     private final AnalyticsClient analyticsClient;
 
     @Tool(
@@ -29,7 +34,7 @@ public class AnalyticsTools {
             description = "Four-digit calendar year, such as 2026."
     ) Integer year) {
 
-        System.out.println("Calling get_monthly_savings");
+        log.info("Calling get_monthly_savings");
 
         Integer userId = getAuthenticatedUserId();
 
@@ -65,7 +70,7 @@ public class AnalyticsTools {
                     Integer year) {
 
 
-        System.out.println("Calling get_month_stats");
+        log.info("Calling get_month_stats");
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<MonthStatsResponse> response =
@@ -88,7 +93,7 @@ public class AnalyticsTools {
             description = "Four-digit calendar year, such as 2026."
     ) Integer year) {
 
-        System.out.println("Calling getMonthlyNeedsWants");
+        log.info("Calling getMonthlyNeedsWants");
 
         Integer userId = getAuthenticatedUserId();
 
@@ -118,7 +123,7 @@ public class AnalyticsTools {
             )
                     Integer month) {
 
-        System.out.println("Calling get_monthly_category_wise");
+        log.info("Calling get_monthly_category_wise");
 
         Integer userId = getAuthenticatedUserId();
 
@@ -145,7 +150,7 @@ public class AnalyticsTools {
 
         Integer userId = getAuthenticatedUserId();
 
-        System.out.println("Calling get_monthly_income_vs_expense");
+        log.info("Calling get_monthly_income_vs_expense");
 
         APIResponse<List<MonthlyIncomeExpenseReponse>> response =
                 analyticsClient.getMonthlyIncomeVsExpense(userId, year);

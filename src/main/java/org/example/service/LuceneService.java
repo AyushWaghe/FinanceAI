@@ -124,8 +124,6 @@ public class LuceneService {
             List<LuceneRetrievedDoc> retrievedDocs=new ArrayList<>();
             int i=0;
             for (ScoreDoc scoreDoc : results.scoreDocs) {
-                System.out.println("BM25 score: " + scoreDoc.score);
-
                 Document document =
                         storedFields.document(scoreDoc.doc);
 

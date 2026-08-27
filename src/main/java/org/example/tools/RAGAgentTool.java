@@ -3,6 +3,8 @@ package org.example.tools;
 import lombok.RequiredArgsConstructor;
 import org.example.service.DocumentRetrievalPipeline;
 import org.example.util.AuthenticationUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RAGAgentTool {
     private final DocumentRetrievalPipeline documentRetrievalPipeline;
+    private static final Logger log = LoggerFactory.getLogger(HelperTools.class);
 
     @Tool(
             name = "search_knowledge",
@@ -33,7 +36,7 @@ public class RAGAgentTool {
     public String callRAGAgent(@ToolParam(
             description = "The user's question or information to search for in their uploaded documents."
     ) String query){
-        System.out.println("RAG agent called");
+        log.info("RAG agent called");
         Integer userId=getAuthenticatedUserId();
         return documentRetrievalPipeline.retrieveDocuments(query,userId);
     }

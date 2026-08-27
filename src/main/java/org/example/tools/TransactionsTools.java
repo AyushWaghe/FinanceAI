@@ -10,6 +10,8 @@ import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,6 +19,9 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class TransactionsTools {
+
+    private static final Logger log = LoggerFactory.getLogger(TransactionsTools.class);
+
     private final TransactionClient transactionClient;
 
 
@@ -55,7 +60,7 @@ public class TransactionsTools {
             )
                     LocalDate endDate) {
 
-        System.out.println("Calling getTransactions Tool");
+        log.info("Calling getTransactions Tool");
 
         Integer userId = getAuthenticatedUserId();
 
@@ -65,6 +70,9 @@ public class TransactionsTools {
                         startDate,
                         endDate
                 );
+
+        log.info("Transactions response data: {}", response.getData());
+
         return response.getData();
     }
 
@@ -79,13 +87,14 @@ public class TransactionsTools {
     )
     public List<UserCategoriesResponse> getUserCategories() {
 
-        System.out.println("Calling get user categories tool");
+        log.info("Calling get user categories tool");
 
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<List<UserCategoriesResponse>> response =
                 transactionClient.getUserCategories(
                         userId);
+
         return response.getData();
     }
 
@@ -110,23 +119,20 @@ public class TransactionsTools {
             )
                     Integer year) {
 
-        System.out.println("Calling get monthly transaction tool");
+        log.info("Calling get monthly transaction tool");
 
         Integer userId = getAuthenticatedUserId();
 
-               List<TransactionResponse> response=transactionClient.getMonthlyTransactions(
-                        userId,
-                        month,
-                        year
-                );
+        List<TransactionResponse> response = transactionClient.getMonthlyTransactions(
+                userId,
+                month,
+                year
+        );
 
-               return response;
+        return response;
     }
 
     private Integer getAuthenticatedUserId() {
         return AuthenticationUtil.getCurrentUserId();
     }
-
-
-
 }

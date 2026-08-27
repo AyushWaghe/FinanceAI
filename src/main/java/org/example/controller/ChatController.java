@@ -14,7 +14,7 @@ import software.amazon.awssdk.services.s3.endpoints.internal.Value;
 import java.util.List;
 
 @RestController
-    @RequestMapping("/chat")
+@RequestMapping("/chat")
 @RequiredArgsConstructor
 public class ChatController {
     private final PlannerAgent plannerAgent;
@@ -23,36 +23,18 @@ public class ChatController {
 
     @GetMapping()
     public List<ChatResponses> askPlannerAgent(@RequestParam("query") String query,@RequestParam("thinkAndAnswer") boolean thinkAndAnswer){
-//        return plannerAgent.answerUserQuery(query);
         return chatService.sendMessages(query,thinkAndAnswer);
     }
 
 
     @GetMapping("/getMessages")
     public List<ChatResponses> getMessages(){
-//        return plannerAgent.answerUserQuery(query);
         return chatService.getMessages();
     }
 
 
     @DeleteMapping()
-    public ResponseEntity<APIResponse<Void>> deleteMessages(){
+    public void deleteMessages(){
         chatService.deleteConversation();
-        APIResponse apiResponse=new APIResponse();
-        apiResponse.setMessage("Conversation deleted successfully");
-        apiResponse.setSuccess(true);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
-    }
-
-    @GetMapping("/getCredits")
-    public APIResponse<Integer> getCredits(){
-//        return plannerAgent.answerUserQuery(query);
-        return userDetailClient.getCredits();
-    }
-
-    @GetMapping("/decrementCredit")
-    public APIResponse<Integer> decrementCredits(){
-//        return plannerAgent.answerUserQuery(query);
-        return userDetailClient.decrementCredits();
     }
 }

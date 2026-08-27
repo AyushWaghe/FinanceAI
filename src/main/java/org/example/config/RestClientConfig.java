@@ -27,14 +27,14 @@ public class RestClientConfig {
 
                     if (attributes != null) {
 
-                        String authorization =
+                        String cookie =
                                 attributes.getRequest()
-                                        .getHeader(HttpHeaders.AUTHORIZATION);
+                                        .getHeader(HttpHeaders.COOKIE);
 
-                        if (authorization != null) {
+                        if (cookie != null) {
                             request.getHeaders().set(
-                                    HttpHeaders.AUTHORIZATION,
-                                    authorization
+                                    HttpHeaders.COOKIE,
+                                    cookie
                             );
                         }
                     }

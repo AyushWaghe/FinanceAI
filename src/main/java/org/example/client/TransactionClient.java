@@ -81,13 +81,16 @@ public class TransactionClient {
                     .retrieve()
                     .body(JsonNode.class);
 
-//            System.out.println("Response is"+response);
+            System.out.println("Response is"+response);
+
+
 
             return objectMapper.convertValue(
                     response.get("data").get("content"),
                     new TypeReference<List<TransactionResponse>>() {}
             );
         } catch (Exception e) {
+            System.out.println(e);
             throw new ToolClientException("Error while calling get monthly transactions request due to"+e);
         }
     }

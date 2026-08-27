@@ -1,5 +1,7 @@
 package org.example.tools;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Component
 public class HelperTools {
+    private static final Logger log = LoggerFactory.getLogger(HelperTools.class);
     @Tool(
             name = "get_todays_date_and_time",
             description = """
@@ -14,7 +17,8 @@ public class HelperTools {
         """
     )
     public LocalDateTime getCurrentDateAndTime() {
-        System.out.println("Calling date_function");
+
+        log.info("Calling getCurrentDateAndTime");
         return LocalDateTime.now();
     }
 }

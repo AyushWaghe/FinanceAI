@@ -23,45 +23,29 @@ public class FileStorageController {
     private final DocumentRetrievalPipeline documentRetrievalPipeline;
 
     @PostMapping()
-    public ResponseEntity<APIResponse<Void>> upload(
+    public void upload(
             @RequestParam MultipartFile file) {
-
         fileService.upload(file);
-        APIResponse apiResponse=new APIResponse<>();
-        apiResponse.setMessage("File uploaded successfully");
-        apiResponse.setSuccess(true);
-        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
+
     }
 
     @GetMapping()
-    public ResponseEntity<InputStreamResource> download(
+    public InputStreamResource download(
             @RequestParam String objectKey) {
 
-        InputStream inputStream= fileService.download(objectKey);
+        InputStream inputStream = fileService.download(objectKey);
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(inputStream));
+        return new InputStreamResource(inputStream);
     }
 
     @GetMapping("/getFiles")
-    public ResponseEntity<APIResponse<List<DocUploadResponse>>> getUserFilesData() {
-        List<DocUploadResponse> docUploadResponses= fileService.getUserFiles();
-        APIResponse<List<DocUploadResponse>> apiResponse=new APIResponse<>();
-        apiResponse.setData(docUploadResponses);
-        apiResponse.setSuccess(true);
-        apiResponse.setMessage("User files fetched successfully");
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    public List<DocUploadResponse> getUserFilesData() {
+        return fileService.getUserFiles();
     }
 
     @DeleteMapping()
-    public ResponseEntity<APIResponse<Void>> deleteFile(
+    public void deleteFile(
             @RequestParam("objectKey") String objectKey) {
-
         fileService.delete(objectKey);
-        APIResponse<Void> apiResponse=new APIResponse<>();
-        apiResponse.setSuccess(true);
-        apiResponse.setMessage("User document deleted successfully");
-        return new ResponseEntity<>(apiResponse,HttpStatus.OK);
     }
 }
