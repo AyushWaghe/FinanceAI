@@ -1,0 +1,22 @@
+[
+  {
+    "filePath": "D:\\NCDC\\FinanceAI\\src\\test\\resources\\documents\\Ayush_Waghe_Resume.pdf",
+    "expectedChunkingStrategy": "DOCUMENT"
+  },
+  {
+    "filePath": "D:\\NCDC\\FinanceAI\\src\\test\\resources\\documents\\Eazybytes_HR_Policies.pdf",
+    "expectedChunkingStrategy": "SEMANTIC"
+  },
+  {
+    "filePath": "D:\\NCDC\\FinanceAI\\src\\test\\resources\\documents\\java-interview-prep-v1.pdf",
+    "expectedChunkingStrategy": "DOCUMENT"
+  },
+  {
+    "filePath": "D:\\NCDC\\FinanceAI\\src\\test\\resources\\documents\\Manish_Sharma_Resume.pdf",
+    "expectedChunkingStrategy": "DOCUMENT"
+  },
+  {
+    "filePath": "D:\\NCDC\\FinanceAI\\src\\test\\resources\\documents\\SampleAI.pdf",
+    "expectedChunkingStrategy": "DOCUMENT"
+  }
+]
