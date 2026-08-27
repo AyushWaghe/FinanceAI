@@ -30,6 +30,7 @@ public class UserDocument {
 
     private String docSummary;
 
+    @Enumerated(EnumType.STRING)
     private DocumentState documentState;
 
     private String rejectedReason;

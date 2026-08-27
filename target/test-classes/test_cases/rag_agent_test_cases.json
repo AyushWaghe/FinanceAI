@@ -1,0 +1,77 @@
+[
+  {
+    "query": "What are the standard working hours at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "The standard working hours at EazyBytes are 2:00 PM to 11:00 PM, Monday to Friday."
+  },
+  {
+    "query": "How many days of casual leave and sick leave are provided at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "EazyBytes provides 8 days of Casual Leave and 8 days of Sick Leave per year."
+  },
+  {
+    "query": "How many days of earned leave are available at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "Employees are entitled to 15 days of Earned Leave per year."
+  },
+  {
+    "query": "How many days can an employee work from home at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "Employees can work from home for 2 days a week, subject to the applicable job role and approval."
+  },
+  {
+    "query": "What is the notice period at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "The minimum notice period for resignation at EazyBytes is 36 days."
+  },
+  {
+    "query": "How long does EazyBytes take to process the full and final settlement after an employee leaves?",
+    "userId": 777,
+    "expectedAnswer": "The full and final settlement will be processed within 53 days of the employee's last working day."
+  },
+  {
+    "query": "When are salaries credited at EazyBytes?",
+    "userId": 777,
+    "expectedAnswer": "Salaries at EazyBytes are credited by the 9th working day of every month."
+  },
+  {
+    "query": "What is the probation period mentioned in the TCS offer letter?",
+    "userId": 777,
+    "expectedAnswer": "The TCS offer letter states that the probation period is three months."
+  },
+  {
+    "query": "What is the gross annual salary mentioned in the TCS offer letter?",
+    "userId": 777,
+    "expectedAnswer": "The gross annual salary offered by TCS is INR 7,08,410."
+  },
+  {
+    "query": "What is the basic monthly salary mentioned in the TCS offer letter?",
+    "userId": 777,
+    "expectedAnswer": "The basic salary is INR 15,000 per month."
+  },
+  {
+    "query": "How much is the monthly HRA mentioned in the TCS compensation structure?",
+    "userId": 777,
+    "expectedAnswer": "The HRA is INR 7,500 per month."
+  },
+  {
+    "query": "How much is the monthly performance pay and performance bonus in the TCS offer?",
+    "userId": 777,
+    "expectedAnswer": "The monthly performance pay is INR 4,500 and the performance bonus is INR 3,100 per month."
+  },
+  {
+    "query": "What is the joining date and joining location mentioned in the TCS joining letter?",
+    "userId": 777,
+    "expectedAnswer": "The joining date is 24 July 2025, and both the joining location and work location are Mumbai."
+  },
+  {
+    "query": "What happens if performance during the TCS Initial Learning Program does not meet expectations?",
+    "userId": 777,
+    "expectedAnswer": "If performance during the TCS Initial Learning Program does not meet expectations, TCS management reserves the right to extend the program or terminate the traineeship."
+  },
+  {
+    "query": "What are Ayush Waghe's technical skills?",
+    "userId": 777,
+    "expectedAnswer": "Ayush Waghe's technical skills include Java, Spring Boot, Spring Security, Kafka, PostgreSQL, React, Docker, SQL, Git, HTML/CSS, Machine Learning, and Deep Learning."
+  }
+]

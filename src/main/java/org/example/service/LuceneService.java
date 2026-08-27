@@ -16,12 +16,14 @@ import org.apache.lucene.search.similarities.BM25Similarity;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.example.dto.LuceneDocumentData;
+import org.example.dto.LuceneRetrievedDoc;
 import org.example.exceptions.LuceneServiceException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,7 +41,7 @@ public class LuceneService {
             IndexWriterConfig config=new IndexWriterConfig(analyzer);
             indexWriter=new IndexWriter(directory,config);
         }catch (IOException e){
-            throw new LuceneServiceException("Error while initializing index writer-Lucene service-Post construct");
+            throw new LuceneServiceException("Error while initializing index writer-Lucene service-Post construct due to"+e);
         }
     }
 
@@ -92,7 +94,7 @@ public class LuceneService {
         }
     }
 
-    public void searchLucene(String userQuery,String userId){
+    public List<LuceneRetrievedDoc> searchLucene(String userQuery, String userId,int topK){
 
 
         try{
@@ -117,28 +119,27 @@ public class LuceneService {
                             .add(userFilter, BooleanClause.Occur.FILTER)
                             .build();
 
-            TopDocs results=searcher.search(finalQuery,10);
+            TopDocs results=searcher.search(finalQuery,topK);
             StoredFields storedFields = searcher.storedFields();
+            List<LuceneRetrievedDoc> retrievedDocs=new ArrayList<>();
+            int i=0;
             for (ScoreDoc scoreDoc : results.scoreDocs) {
-
                 System.out.println("BM25 score: " + scoreDoc.score);
 
                 Document document =
                         storedFields.document(scoreDoc.doc);
 
-                String chunkId = document.get("chunkId");
-                String documentId = document.get("documentId");
-
-                System.out.println("chunkId: " + chunkId);
-                System.out.println("documentId: " + documentId);
+                LuceneRetrievedDoc luceneRetrievedDoc=new LuceneRetrievedDoc(document.get("documentId"),document.get("chunkId"),i+1,scoreDoc.score);
+                retrievedDocs.add(luceneRetrievedDoc);
             }
+
+            return retrievedDocs;
 
         } catch (ParseException e) {
             e.printStackTrace();
         }catch (IOException e){
             throw new LuceneServiceException("Unable to fetch docs-lucene service error");
         }
+        return null;
     }
-
-
 }

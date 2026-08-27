@@ -6,18 +6,21 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.example.exceptions.UnsupportedFileTypeException;
+import org.example.util.FileUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DocParserService {
 
     public String extract(InputStream stream, String objectKey) {
 
-        String extension=getExtension(objectKey);
+        String extension= FileUtils.getFileExtension(objectKey);
 
         try {
 
@@ -70,15 +73,32 @@ public class DocParserService {
         );
     }
 
-    private String getExtension(String objectKey) {
+    public List<String> extractPDFPages(InputStream inputStream){
+        List<String> pages = new ArrayList<>();
+        try (PDDocument document = Loader.loadPDF(inputStream.readAllBytes())) {
 
-        int dotIndex = objectKey.lastIndexOf('.');
+            PDFTextStripper stripper = new PDFTextStripper();
 
-        if (dotIndex == -1 || dotIndex == objectKey.length() - 1) {
-            throw new UnsupportedFileTypeException("File has no extension");
+            for (int pageNumber = 1;
+                 pageNumber <= document.getNumberOfPages();
+                 pageNumber++) {
+
+                stripper.setStartPage(pageNumber);
+                stripper.setEndPage(pageNumber);
+
+                String pageText = stripper.getText(document).trim();
+
+                if (!pageText.isBlank()) {
+                    pages.add(pageText);
+                }
+            }
+        }catch (IOException e){
+            throw new RuntimeException("Unable to extract PDF pages"+e);
         }
 
-        return objectKey.substring(dotIndex + 1);
+        return pages;
     }
+
+
 
 }

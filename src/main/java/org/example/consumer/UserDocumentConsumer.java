@@ -3,7 +3,7 @@ package org.example.consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.event.UserDocumentUploadedEvent;
-import org.example.service.DocumentIngestionService;
+import org.example.service.DocumentIngestionPipeline;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class UserDocumentConsumer {
 
-    private final DocumentIngestionService documentIngestionService;
+    private final DocumentIngestionPipeline documentIngestionPipeline;
 
     @KafkaListener(
             topics = "user-document-uploaded-topic",
@@ -20,6 +20,6 @@ public class UserDocumentConsumer {
     )
     public void triggerDocumentIngestionPipeline(UserDocumentUploadedEvent userDocumentUploadedEvent){
         log.error("Document pipeline triggered for. objectKey={} userId={}", userDocumentUploadedEvent.objectKey(), userDocumentUploadedEvent.userId());
-        documentIngestionService.ingestDocument(userDocumentUploadedEvent.objectKey(), userDocumentUploadedEvent.userId());
+        documentIngestionPipeline.ingestDocument(userDocumentUploadedEvent.objectKey(), userDocumentUploadedEvent.userId());
     }
 }

@@ -1,0 +1,116 @@
+[
+  {
+    "query": "What are the working hours and attendance rules?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "2b5e4ada-2227-4e2d-93a4-5ddd36d8fdb7"
+    ]
+  },
+  {
+    "query": "What are the leave policies and how much leave do employees get?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "2b5e4ada-2227-4e2d-93a4-5ddd36d8fdb7"
+    ]
+  },
+  {
+    "query": "What are the employee benefits and performance management policies?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "2b5e4ada-2227-4e2d-93a4-5ddd36d8fdb7"
+    ]
+  },
+  {
+    "query": "What are the company's remote work, grievance redressal and exit policies? Also tell me about how long is the probation period",
+    "userId": 777,
+    "expectedChunkIds": [
+      "059f5308-a78a-4460-90e8-4b85b4ebbbe4",
+      "2b5e4ada-2227-4e2d-93a4-5ddd36d8fdb7"
+    ]
+  },
+  {
+    "query": "What does the HR policy say about employee conduct, employment policies and workplace harassment? After how many days reimbursements can be claimed",
+    "userId": 777,
+    "expectedChunkIds": [
+      "5741c228-85d5-4085-9e41-584253cf4bc6",
+      "2adfc15c-a858-4cc6-9ea0-1c2ea8add68a"
+    ]
+  },
+  {
+    "query": "What are the company's travel expense, IT security and remote work policies? Also i have few doubts and clarifications, whom do i contact?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "2adfc15c-a858-4cc6-9ea0-1c2ea8add68a",
+      "059f5308-a78a-4460-90e8-4b85b4ebbbe4"
+    ]
+  },
+  {
+    "query": "When are salaries credited and what deductions are made from salary?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "2b5e4ada-2227-4e2d-93a4-5ddd36d8fdb7"
+    ]
+  },
+  {
+    "query": "What was the salary credit and what other major transactions occurred in the Meridian Urban Bank account?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "52059be4-3d8e-4533-bfa6-d803e767e17a",
+      "07e10f01-9ac2-4753-9dd5-76256c831c8e"
+    ]
+  },
+  {
+    "query": "What were the opening and closing balances of the Meridian Urban Bank account?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "52059be4-3d8e-4533-bfa6-d803e767e17a"
+    ]
+  },
+  {
+    "query": "What transactions were made from the Meridian Urban Bank salary account during February and March 2026?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "52059be4-3d8e-4533-bfa6-d803e767e17a",
+      "07e10f01-9ac2-4753-9dd5-76256c831c8e"
+    ]
+  },
+  {
+    "query": "What information is available about the Northstar Cooperative Bank business account and its transactions?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "3635c60e-09b3-4347-879b-3a6fce996cae"
+    ]
+  },
+  {
+    "query": "What does the TCS joining letter say about the Initial Learning Program and joining instructions?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "443e0da3-b654-4135-96b5-6b5df4f54730",
+      "5e3378ab-8242-47d5-b67f-4b78bbbe6ea19"
+    ]
+  },
+  {
+    "query": "What are the terms and conditions mentioned in the TCS joining letter?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "443e0da3-b654-4135-96b5-6b5df4f54730",
+      "5e3378ab-8242-47d5-b67f-4b78bbbe6ea19"
+    ]
+  },
+  {
+    "query": "What are Ayush's education, technical skills, work experience and projects?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "4d3eb601-bec3-4ab7-993c-1789777b4b21",
+      "06ab7b2f-b642-41c4-b3af-c76f58f9b4c"
+    ]
+  },
+  {
+    "query": "What technologies and software development experience does Ayush have?",
+    "userId": 777,
+    "expectedChunkIds": [
+      "06ab7b2f-b642-41c4-b3af-c76f58f9b4c",
+      "4d3eb601-bec3-4ab7-993c-1789777b4b21"
+    ]
+  }
+]
