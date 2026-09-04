@@ -130,7 +130,6 @@ public class DocumentIngestionPipeline {
             LLMDocIngestionResponse llmDocIngestionResponse=docAnalyzerService.analyzeDoc(userPrompt,promptLoader.load("LLMDocIngestionPrompt"),inputStream2,objectkey);
             llmStopwatch.stop(llmProcessTimer);
 
-            System.out.println("LLM response"+llmDocIngestionResponse);
 
             log.info("Document classified as {}", llmDocIngestionResponse.getDocumentType());
 

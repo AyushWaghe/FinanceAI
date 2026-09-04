@@ -35,7 +35,7 @@ public class BillTools {
     public List<BillResponse> getBills() {
         log.info("Calling get_bills");
         Integer userId = getAuthenticatedUserId();
-        return billClient.getBills(userId);
+        return billClient.getBills();
     }
 
     @Tool(
@@ -54,7 +54,7 @@ public class BillTools {
     public List<BillInstanceResponse> getUpcomingBills() {
         log.info("Calling getUpcomingBills");
         Integer userId = getAuthenticatedUserId();
-        return billClient.getUpcomingBills(userId);
+        return billClient.getUpcomingBills();
     }
 
     @Tool(
@@ -78,7 +78,7 @@ public class BillTools {
                     BillStatus status) {
         log.info("Calling getBillsByStatus");
         Integer userId = getAuthenticatedUserId();
-        return billClient.getBillsByStatus(userId, status);
+        return billClient.getBillsByStatus( status);
     }
 
     @Tool(
@@ -96,7 +96,7 @@ public class BillTools {
     public List<BillInstanceResponse> getOverdueBills() {
         log.info("Calling getOverdueBills");
         Integer userId = getAuthenticatedUserId();
-        return billClient.getOverdueBills(userId);
+        return billClient.getOverdueBills();
     }
 
 

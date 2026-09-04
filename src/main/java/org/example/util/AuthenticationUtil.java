@@ -11,6 +11,6 @@ public class AuthenticationUtil {
                         .getContext()
                         .getAuthentication();
 
-        return (Integer) authentication.getDetails();
+        return (Integer) authentication.getPrincipal();
     }
 }

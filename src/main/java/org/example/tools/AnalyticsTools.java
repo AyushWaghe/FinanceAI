@@ -39,7 +39,7 @@ public class AnalyticsTools {
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<List<MonthlySpendingResponse>> response =
-                analyticsClient.getMonthlySavings(userId, year);
+                analyticsClient.getMonthlySavings(year);
 
         return response.getData();
     }
@@ -74,7 +74,7 @@ public class AnalyticsTools {
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<MonthStatsResponse> response =
-                analyticsClient.getMonthStats(userId, month, year);
+                analyticsClient.getMonthStats(month, year);
 
         return response.getData();
     }
@@ -98,7 +98,7 @@ public class AnalyticsTools {
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<List<MonthlyNeedsWantsResponse>> response =
-                analyticsClient.getMonthlyNeedsWants(userId, year);
+                analyticsClient.getMonthlyNeedsWants(year);
 
         return response.getData();
     }
@@ -128,7 +128,7 @@ public class AnalyticsTools {
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<List<MonthlyCategoryResponse>> response =
-                analyticsClient.getCategoryWise(userId, year, month);
+                analyticsClient.getCategoryWise( year, month);
 
         return response.getData();
     }
@@ -153,7 +153,7 @@ public class AnalyticsTools {
         log.info("Calling get_monthly_income_vs_expense");
 
         APIResponse<List<MonthlyIncomeExpenseReponse>> response =
-                analyticsClient.getMonthlyIncomeVsExpense(userId, year);
+                analyticsClient.getMonthlyIncomeVsExpense(year);
 
         return response.getData();
     }

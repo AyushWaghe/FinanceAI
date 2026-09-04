@@ -15,15 +15,14 @@ public class AnalyticsClient {
     private final RestClient restClient;
 
     public APIResponse<List<MonthlySpendingResponse>> getMonthlySavings(
-            Integer userId,
             Integer year) {
 
         try {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/analytics/monthly-savings/user/{userId}")
+                            .path("/analytics/monthly-savings/user")
                             .queryParam("year", year)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(
                             new ParameterizedTypeReference<
@@ -36,17 +35,16 @@ public class AnalyticsClient {
     }
 
     public APIResponse<MonthStatsResponse> getMonthStats(
-            Integer userId,
             Integer month,
             Integer year) {
 
         try {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/analytics/month-stats/user/{userId}")
+                            .path("/analytics/month-stats/user")
                             .queryParam("month", month)
                             .queryParam("year", year)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(
                             new ParameterizedTypeReference<
@@ -59,15 +57,14 @@ public class AnalyticsClient {
     }
 
     public APIResponse<List<MonthlyNeedsWantsResponse>> getMonthlyNeedsWants(
-            Integer userId,
             Integer year) {
 
        try {
            return restClient.get()
                    .uri(uriBuilder -> uriBuilder
-                           .path("/analytics/monthly-needs-wants/user/{userId}")
+                           .path("/analytics/monthly-needs-wants/user")
                            .queryParam("year", year)
-                           .build(userId))
+                           .build())
                    .retrieve()
                    .body(
                            new ParameterizedTypeReference<
@@ -80,17 +77,16 @@ public class AnalyticsClient {
     }
 
     public APIResponse<List<MonthlyCategoryResponse>> getCategoryWise(
-            Integer userId,
             Integer year,
             Integer month) {
 
         try {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/analytics/monthly-category/user/{userId}")
+                            .path("/analytics/monthly-category/user")
                             .queryParam("year", year)
                             .queryParam("month", month)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(
                             new ParameterizedTypeReference<
@@ -103,15 +99,14 @@ public class AnalyticsClient {
     }
 
     public APIResponse<List<MonthlyIncomeExpenseReponse>> getMonthlyIncomeVsExpense(
-            Integer userId,
             Integer year) {
 
         try {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/analytics/income-vs-expense/user/{userId}")
+                            .path("/analytics/income-vs-expense/user")
                             .queryParam("year", year)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(
                             new ParameterizedTypeReference<

@@ -27,7 +27,6 @@ public class TransactionClient {
     private final ObjectMapper objectMapper;
 
     public APIResponse<List<TransactionResponse>> getTransactions(
-            Integer userId,
             LocalDate startDate,
             LocalDate endDate) {
 
@@ -35,7 +34,6 @@ public class TransactionClient {
             return restClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/transactions")
-                            .queryParam("userId", userId)
                             .queryParamIfPresent(
                                     "startDate",
                                     java.util.Optional.ofNullable(startDate)
@@ -56,8 +54,8 @@ public class TransactionClient {
         }
     }
 
-    public APIResponse<List<UserCategoriesResponse>> getUserCategories(Integer userId) {
-       return restClient.get().uri(uriBuilder -> uriBuilder.path("/transactions/categories").queryParam("userId",userId).build())
+    public APIResponse<List<UserCategoriesResponse>> getUserCategories() {
+       return restClient.get().uri(uriBuilder -> uriBuilder.path("/transactions/categories").build())
                .retrieve()
                .body(new ParameterizedTypeReference<APIResponse<List<UserCategoriesResponse>>>() {
                });
@@ -65,14 +63,12 @@ public class TransactionClient {
 
 
     public List<TransactionResponse> getMonthlyTransactions(
-            Integer userId,
             Integer month,
             Integer year) {
         try {
             JsonNode response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/transactions/monthly")
-                            .queryParam("userId", userId)
                             .queryParam("month", month)
                             .queryParam("year", year)
                             .queryParam("page", page)

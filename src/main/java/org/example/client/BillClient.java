@@ -24,15 +24,15 @@ public class BillClient {
     private final int pageSize=100000;
     private final ObjectMapper objectMapper;
 
-    public List<BillResponse> getBills(Integer userId) {
+    public List<BillResponse> getBills() {
 
         try {
             JsonNode response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/bill/user/{userId}")
+                            .path("/bill/user")
                             .queryParam("page", page)
                             .queryParam("pageSize", pageSize)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(JsonNode.class);
 
@@ -46,15 +46,15 @@ public class BillClient {
     }
 
     public List<BillInstanceResponse> getUpcomingBills(
-            Integer userId) {
+            ) {
 
        try {
            JsonNode response =  restClient.get()
                    .uri(uriBuilder -> uriBuilder
-                           .path("/bill-instance/upcoming/{userId}")
+                           .path("/bill-instance/upcoming")
                            .queryParam("page", page)
                            .queryParam("pageSize", pageSize)
-                           .build(userId))
+                           .build())
                    .retrieve()
                    .body(JsonNode.class);
 
@@ -68,15 +68,14 @@ public class BillClient {
     }
 
     public List<BillInstanceResponse> getBillsByStatus(
-            Integer userId,
             BillStatus status) {
 
         try {
             JsonNode response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/bill-instance/status/user/{userId}")
+                            .path("/bill-instance/status/user")
                             .queryParam("status", status)
-                            .build(userId))
+                            .build())
                     .retrieve()
                     .body(JsonNode.class);
 
@@ -90,13 +89,13 @@ public class BillClient {
     }
 
     public List<BillInstanceResponse> getOverdueBills(
-            Integer userId) {
+            ) {
 
         try {
             JsonNode response = restClient.get()
                     .uri(uriBuilder -> uriBuilder
-                            .path("/bill-instance/overdue/{userId}")
-                            .build(userId))
+                            .path("/bill-instance/overdue")
+                            .build())
                     .retrieve()
                     .body(JsonNode.class);
 

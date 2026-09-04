@@ -66,7 +66,6 @@ public class TransactionsTools {
 
         APIResponse<List<TransactionResponse>> response =
                 transactionClient.getTransactions(
-                        userId,
                         startDate,
                         endDate
                 );
@@ -92,8 +91,7 @@ public class TransactionsTools {
         Integer userId = getAuthenticatedUserId();
 
         APIResponse<List<UserCategoriesResponse>> response =
-                transactionClient.getUserCategories(
-                        userId);
+                transactionClient.getUserCategories();
 
         return response.getData();
     }
@@ -124,7 +122,6 @@ public class TransactionsTools {
         Integer userId = getAuthenticatedUserId();
 
         List<TransactionResponse> response = transactionClient.getMonthlyTransactions(
-                userId,
                 month,
                 year
         );
