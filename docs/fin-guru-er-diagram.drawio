@@ -1,0 +1,47 @@
+<mxfile host="app.diagrams.net" agent="Codex">
+  <diagram id="fin-guru-erd" name="Fin Guru ERD - Crow&#39;s Foot">
+    <mxGraphModel dx="1922" dy="1076" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" parent="1" style="text;html=1;align=center;verticalAlign=middle;fontColor=#1f2933;fontSize=20;" value="&lt;b&gt;Fin Guru - Entity Relationship Diagram&lt;/b&gt;" vertex="1">
+          <mxGeometry height="55" width="860" x="470" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="externalUser" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;rounded=0;fillColor=#ffffff;swimlaneFillColor=#dae8fc;strokeColor=#3f4a54;separatorColor=#3f4a54;fontColor=#1f2933;fontSize=13;align=left;verticalAlign=top;spacingLeft=10;spacingTop=7;" value="&lt;b&gt;Savings Saga User&lt;/b&gt; &lt;font color=&quot;#6b7280&quot;&gt;(external reference)&lt;/font&gt;&lt;hr&gt;&lt;b&gt;REF&lt;/b&gt;  user_id : INTEGER / BIGINT&lt;br&gt;&lt;br&gt;&lt;font color=&quot;#6b7280&quot;&gt;Authenticated user identity is supplied through the JWT.&lt;br&gt;No users table or database FK exists inside FinanceAI.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="175" width="490" x="655" y="105" as="geometry" />
+        </mxCell>
+        <mxCell id="userDocs" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;rounded=0;fillColor=#ffffff;swimlaneFillColor=#e5e7eb;strokeColor=#3f4a54;separatorColor=#3f4a54;fontColor=#1f2933;fontSize=13;align=left;verticalAlign=top;spacingLeft=10;spacingTop=7;" value="&lt;b&gt;user_docs&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt;  id : INTEGER&lt;br&gt;&lt;b&gt;REF&lt;/b&gt;  user_id : INTEGER NOT NULL&lt;br&gt;doc_type : VARCHAR NULL&lt;br&gt;doc_summary : VARCHAR NULL&lt;br&gt;document_state : VARCHAR NULL&lt;br&gt;rejected_reason : VARCHAR NULL&lt;br&gt;object_key : VARCHAR NOT NULL&lt;br&gt;created_at : TIMESTAMP NULL&lt;br&gt;&lt;br&gt;&lt;b&gt;KEY GEN&lt;/b&gt;  SEQUENCE doc_seq (allocation 50)" vertex="1">
+          <mxGeometry height="325" width="470" x="80" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="conversation" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;rounded=0;fillColor=#ffffff;swimlaneFillColor=#e5e7eb;strokeColor=#3f4a54;separatorColor=#3f4a54;fontColor=#1f2933;fontSize=13;align=left;verticalAlign=top;spacingLeft=10;spacingTop=7;" value="&lt;b&gt;conversation&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt;  conversation_id : BIGINT&lt;br&gt;&lt;b&gt;REF&lt;/b&gt;  user_id : BIGINT NOT NULL&lt;br&gt;latest_summary : TEXT NULL&lt;br&gt;created_at : TIMESTAMP NOT NULL&lt;br&gt;summary_updated_at : TIMESTAMP NULL&lt;br&gt;updated_at : TIMESTAMP NOT NULL&lt;br&gt;&lt;br&gt;&lt;b&gt;KEY GEN&lt;/b&gt;  IDENTITY" vertex="1">
+          <mxGeometry height="285" width="470" x="665" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="message" parent="1" style="swimlane;html=1;horizontal=1;startSize=30;rounded=0;fillColor=#ffffff;swimlaneFillColor=#e5e7eb;strokeColor=#3f4a54;separatorColor=#3f4a54;fontColor=#1f2933;fontSize=13;align=left;verticalAlign=top;spacingLeft=10;spacingTop=7;" value="&lt;b&gt;message&lt;/b&gt;&lt;hr&gt;&lt;b&gt;PK&lt;/b&gt;  message_id : BIGINT&lt;br&gt;&lt;b&gt;FK&lt;/b&gt;  conversation_id : BIGINT NOT NULL&lt;br&gt;role : VARCHAR NOT NULL&lt;br&gt;content : TEXT NOT NULL&lt;br&gt;created_at : TIMESTAMP NOT NULL&lt;br&gt;&lt;br&gt;&lt;b&gt;KEY GEN&lt;/b&gt;  IDENTITY" vertex="1">
+          <mxGeometry height="245" width="450" x="1280" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="enumNote" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fillColor=#f3f4f6;strokeColor=#9ca3af;fontSize=13;fontColor=#1f2933;" value="&lt;b&gt;Enumerated Values&lt;/b&gt;&lt;br&gt;&lt;b&gt;document_state&lt;/b&gt; = PROCESSING | COMPLETED | REJECTED | SERVER_ERROR&lt;br&gt;&lt;b&gt;role&lt;/b&gt; = USER | ASSISTANT" vertex="1">
+          <mxGeometry height="115" width="470" x="665" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="scopeNote" parent="1" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacing=12;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontColor=#1f2933;" value="&lt;b&gt;Relational Scope&lt;/b&gt;&lt;br&gt;Only JPA-managed PostgreSQL entities appear as physical tables.&lt;br&gt;S3 stores original files, Qdrant stores vector chunks, and Lucene stores the BM25 index; these are supporting stores!" vertex="1">
+          <mxGeometry height="135" width="510" x="140" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="edgeUserDocs" edge="1" parent="1" source="externalUser" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERone;startFill=0;startSize=14;endArrow=ERzeroToMany;endFill=0;endSize=14;strokeColor=#000000;fontSize=12;fontColor=#4b5563;" target="userDocs" value="logical document ownership">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="600" y="205" />
+              <mxPoint x="600" y="550" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edgeUserConversation" edge="1" parent="1" source="externalUser" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERone;startFill=0;startSize=14;endArrow=ERzeroToMany;endFill=0;endSize=14;strokeColor=#000000;fontSize=12;fontColor=#4b5563;" target="conversation" value="logical conversation ownership">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="edgeConversationMessages" edge="1" parent="1" source="conversation" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=ERone;startFill=0;startSize=14;endArrow=ERzeroToMany;endFill=0;endSize=14;strokeColor=#3f4a54;fontSize=12;fontColor=#1f2933;" target="message" value="contains / belongs to">
+          <mxGeometry relative="1" x="-0.1034" y="23" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -25,8 +25,6 @@ public class PlannerAgent {
     private final RAGAgentTool ragAgentTool;
     private final HelperTools helperTools;
     private final PromptLoaderImpl promptLoader;
-    private final MeterRegistry meterRegistry;
-    private final UserDetailClient userDetailClient;
 
 
     public PlannerAgentResponse answerUserQuery(String query,boolean thinkAndAnswer) {

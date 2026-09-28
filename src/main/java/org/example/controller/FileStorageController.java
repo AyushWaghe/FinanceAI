@@ -26,7 +26,6 @@ public class FileStorageController {
     public void upload(
             @RequestParam MultipartFile file) {
         fileService.upload(file);
-
     }
 
     @GetMapping()
